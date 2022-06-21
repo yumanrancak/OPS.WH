@@ -1,0 +1,6 @@
+node_modules/
+key/
+.meteor/local
+.deploy/firdaus@gcp.pem
+.DS_Store
+.deploy

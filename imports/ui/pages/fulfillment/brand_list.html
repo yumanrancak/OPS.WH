@@ -1,0 +1,253 @@
+<template name="brand_list">
+  <div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Brand</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/home">Home</a></li>
+              <li class="breadcrumb-item active">Brand</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Brand List</h3>
+                <span class="float-right">
+                  {{#if my_collection_download}}
+                  <span class="spinner-border text-success spinner-sm"></span>
+                  Exporting on process...
+                  {{/if}}
+                  <a type="button" class="btn btn-sm btn-info text-white" data-toggle="modal" data-target="#modalAdd"><i
+                      class="fas fa-plus"></i> New</a>
+                  <a type="button" class="btn btn-sm btn-success text-white btnExportCsv"><i
+                      class="fas fa-file-csv"></i> Export</a>
+                </span>
+                <div class="modal fade" id="modalAdd">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Add Brand</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form role="form">
+                          <div class="col-12">
+                            <div class="form-group">
+                              <label>Nama</label>
+                              <input type="text" id="brandName" class="form-control">
+                            </div>
+                            <div class="form-group">
+                              <label>Description</label>
+                              <input type="text" id="brandDescription" class="form-control">
+                            </div>
+                            <div class="form-group">
+                              <label>Address</label>
+                              <input type="text" id="brandAddress" class="form-control">
+                            </div>
+                            <div class="form-group">
+                              <label>City</label>
+                              <input type="text" id="brandCity" class="form-control">
+                            </div>
+                            <div class="form-group">
+                              <label>Province</label>
+                              <input type="text" id="brandProvince" class="form-control">
+                            </div>
+                            <div class="form-group">
+                              <label>Country</label>
+                              <input type="text" id="brandCountry" class="form-control">
+                            </div>
+                            <div class="form-group">
+                              <label>Zip</label>
+                              <input type="text" id="brandZip" class="form-control">
+                            </div>
+                            <div class="form-group">
+                              <label>Email</label>
+                              <input type="text" id="brandEmail" class="form-control">
+                            </div>
+                            <div class="form-group">
+                              <label>Web</label>
+                              <input type="text" id="brandWeb" class="form-control">
+                            </div>
+                            <div class="form-group">
+                              <label>Phone</label>
+                              <input type="text" id="brandPhone" class="form-control">
+                            </div>
+                            <div class="form-group">
+                              <label>Facebook</label>
+                              <input type="text" id="brandFb" class="form-control">
+                            </div>
+                            <div class="form-group">
+                              <label>Instagram</label>
+                              <input type="text" id="brandIG" class="form-control">
+                            </div>
+                            <div class="form-group">
+                              <label>User`</label>
+                              <input type="text" id="brandUsers" class="form-control">
+                            </div>
+                            <div class="form-group">
+                              <label>Manager</label>
+                              <input type="text" id="brandManagers" class="form-control">
+                            </div>
+                            <div class="form-group">
+                              <label>Status</label>
+                              <select class="custom-select" id="brandStatus">
+                                <option value="active">Active</option>
+                                <option value="suspend">Suspend</option>
+                              </select>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                      <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btnSave float-right"
+                          data-dismiss="modal">Save</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-12">
+                      <label>Filter</label>
+                      {{> reactiveTableFilter id="myFilterBrand" label=" " }}
+                    </div>
+                  </div>
+                </div>
+                {{#if eq isSubscriptionR false}}
+                <div class="spinner-border text-danger"></div>
+                Loading...
+                {{/if}}
+                {{> reactiveTable class="table table-bordered table-hover table-sm" settings=settings}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>
+<template name="brandStatus">
+  <span> {{#if eq brandStatus 'active'}}
+    <small class="badge badge-success">
+      {{brandStatus}}</small>
+    {{else}}
+    <small class="badge badge-danger">
+      {{brandStatus}}</small>
+    {{/if}}</span>
+</template>
+<template name="brandMp">
+  {{#with (brandMarketplace _id)}}{{this}}{{/with}}
+</template>
+<template name="brandPr">
+  {{#with (brandProduct _id)}}{{this}}{{/with}}
+</template>
+<template name="brandAction1">
+  <div class="btn-group">
+    <a href="/brand/detail/{{_id}}" type="button" class="btn btn-sm btn-success text-white"><i
+        class="fas fa-eye"></i></a>
+    <a type="button" class="btn btn-sm btn-warning text-white" data-toggle="modal" data-target="#modalEdit{{_id}}"><i
+        class="fas fa-edit"></i></a>
+    <a type="button" class="btn btn-sm btn-danger text-white btnDelete"><i class="fas fa-trash"></i></a>
+  </div>
+  <div class="modal fade" id="modalEdit{{_id}}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Brand</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form role="form">
+            <div class="col-12">
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" value="{{brandName}}" id="brandName1{{_id}}" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <input type="text" value="{{brandDescription}}" id="brandDescription1{{_id}}" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Address</label>
+                <input type="text" value="{{brandAddress}}" id="brandAddress1{{_id}}" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>City</label>
+                <input type="text" value="{{brandCity}}" id="brandCity1{{_id}}" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Province</label>
+                <input type="text" value="{{brandProvince}}" id="brandProvince1{{_id}}" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Country</label>
+                <input type="text" value="{{brandCountry}}" id="brandCountry1{{_id}}" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Zip</label>
+                <input type="text" value="{{brandZip}}" id="brandZip1{{_id}}" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="text" value="{{brandEmail}}" id="brandEmail1{{_id}}" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Web</label>
+                <input type="text" value="{{brandWeb}}" id="brandWeb1{{_id}}" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="text" value="{{brandPhone}}" id="brandPhone1{{_id}}" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Facebook</label>
+                <input type="text" value="{{brandFb}}" id="brandFb1{{_id}}" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Instagram</label>
+                <input type="text" value="{{brandIG}}" id="brandIG1{{_id}}" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>User`</label>
+                <input type="text" value="{{brandUsers}}" id="brandUsers1{{_id}}" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Manager</label>
+                <input type="text" value="{{brandManagers}}" id="brandManagers1{{_id}}" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Status</label>
+                <p>{{brandStatus}}</p>
+                <select class="custom-select" id="brandStatus1{{_id}}">
+                  <option value="active">Active</option>
+                  <option value="suspend">Suspend</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary btnSaveEdit float-right" data-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

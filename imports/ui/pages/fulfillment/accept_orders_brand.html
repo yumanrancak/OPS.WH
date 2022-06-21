@@ -1,0 +1,802 @@
+<template name="acceptOrders">
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Accept New Orders</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item"><a href="/fulfillment">Fulfillment</a></li>
+              <li class="breadcrumb-item active">Accept Orders</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          {{#with countDataTokopedia}}
+          <div class="col-lg-2 col-3">
+            <div class="small-box bg-white">
+              <div class="inner">
+                <h3>{{NewOrder}}</h3>
+                <p>Tokopedia</p>
+              </div>
+            </div>
+          </div>
+          {{/with}}
+          {{#with countDataShopee}}
+          <div class="col-lg-2 col-3">
+            <div class="small-box bg-white">
+              <div class="inner">
+                <h3>{{NewOrder}}</h3>
+                <p>Shopee</p>
+              </div>
+            </div>
+          </div>
+          {{/with}}
+          {{#with countDataLazada}}
+          <div class="col-lg-2 col-3">
+            <div class="small-box bg-white">
+              <div class="inner">
+                <h3>{{NewOrder}}</h3>
+                <p>Lazada</p>
+              </div>
+            </div>
+          </div>
+          {{/with}}
+          {{#with countDataBukalapak}}
+          <div class="col-lg-2 col-3">
+            <div class="small-box bg-white">
+              <div class="inner">
+                <h3>{{NewOrder}}</h3>
+                <p>Bukalapak</p>
+              </div>
+            </div>
+          </div>
+          {{/with}}
+          {{#with countDataBlibli}}
+          <div class="col-lg-2 col-3">
+            <div class="small-box bg-white">
+              <div class="inner">
+                <h3>{{NewOrder}}</h3>
+                <p>Blibli</p>
+              </div>
+            </div>
+          </div>
+          {{/with}}
+          {{#with countDataZalora}}
+          <div class="col-lg-2 col-3">
+            <div class="small-box bg-white">
+              <div class="inner">
+                <h3>{{NewOrder}}</h3>
+                <p>Zalora</p>
+              </div>
+            </div>
+          </div>
+          {{/with}}
+          {{#with countDataJdid}}
+          <div class="col-lg-2 col-3">
+            <div class="small-box bg-white">
+              <div class="inner">
+                <h3>{{NewOrder}}</h3>
+                <p>JDid</p>
+              </div>
+            </div>
+          </div>
+          {{/with}}
+        </div>
+        <!-- Order Tokopedia -->
+        <div class="row">
+          <div class="col-lg-12">
+             <div class="card">
+              <div class="card-header border-0">
+                <h3 class="card-title">New Order Tokopedia</h3>
+                
+                <div class="card-tools">
+                  {{#with countDataTokopedia}}
+                  <span class="badge badge-danger">{{NewOrder}}</span>
+                  {{/with}}
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-sm table-valign-middle">
+                  <thead>
+                    <tr>
+                      <th>Marketplace</th>
+                      <th>Brand</th>
+                      <th>Invoice No</th>
+                      <th>Order Id</th>
+                      <th>Status</th>
+                      <th>Sts MP</th>
+                      <th>Create Time</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each newOrder}}
+                    <tr>
+                      <td>{{marketplaceId}}</td>
+                      <td>{{#with (storeName shopId)}}{{this}}{{/with}}</td>
+                      <td>{{invoiceNo}}</td>
+                      <td>{{orderId}}</td>
+                      <td>
+                          <span class="badge bg-danger">{{internalStatus}}</span>
+                      </td>
+                      <td>
+                          <span class="badge bg-danger">{{mpStatus}}</span>
+                      </td>
+                      <td>{{dateTime mpCreateTime}}</td>
+                      <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalViewDetail{{_id}}"><i class="fas fa-eye"></i></button></td>
+                    </tr>
+                     <!-- INPUT Orders -->
+    <div class="modal  fade" id="modalViewDetail{{_id}}">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Order Detail Tokopedia</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+           {{#with (detailOrder orderId)}}
+           {{ this.marketplaceId}}<br>
+           {{invoiceNo}}<br>
+           Items: <br>
+           <table class="table table-striped table-sm table-valign-middle">
+           <thead>
+             
+           <tr>
+               <th>SKU</th>
+               <th>Name</th>
+               <th>Qty</th>
+               <th>Availability</th>
+             </tr>
+             </thead>
+<tbody>
+           {{#each this.orders.order_info.order_detail}}
+           <tr>
+             <td>{{ this.sku}}</td>
+             <td>{{ this.product_name}}</td>
+             <td>{{ this.quantity}}</td>
+             <td>{{ this.quantity}}</td>
+           </tr>
+           {{/each}}
+            </tbody>
+           <!-- {{ this._id}} -->
+           </table>
+           {{/with}}
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default float-right" data-dismiss="modal">Close</button>
+          <button type="button" class="btnAcceptOrder btn btn-danger">Reject Order</button>
+          <button type="button" class="btnAcceptOrder btn btn-primary">Accept Order</button>
+        </div>
+      </div>
+    </div>
+    </div>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Order Shopee -->
+        <div class="row">
+          <div class="col-lg-12">
+             <div class="card">
+              <div class="card-header border-0">
+                <h3 class="card-title">New Order Shopee</h3>
+                <div class="card-tools">
+                  {{#with countDataShopee}}
+                  <span class="badge badge-danger">{{NewOrder}}</span>
+                  {{/with}}
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-sm table-valign-middle">
+                  <thead>
+                    <tr>
+                      <th>Marketplace</th>
+                      <th>Brand</th>
+                      <th>Invoice No/Order Id</th>
+                      <th>Status</th>
+                      <th>Sts MP</th>
+                      <th>Create Time</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each newOrderShopee}}
+                    <tr>
+                      <td>{{marketplaceId}}</td>
+                      <td>{{#with (storeName shopId)}}{{this}}{{/with}}</td>
+                      <td>{{orderId}}</td>
+                      <td>
+                          <span class="badge bg-danger">{{internalStatus}}</span>
+                      </td>
+                      <td>
+                          <span class="badge bg-danger">{{mpStatus}}</span>
+                      </td>
+                      <td>{{dateTime mpCreateTime}}</td>
+                      <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalViewDetail{{_id}}"><i class="fas fa-eye"></i></button></td>
+                    </tr>
+                     <!-- INPUT Orders -->
+    <div class="modal  fade" id="modalViewDetail{{_id}}">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Order Detail Shopee</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+           {{#with (detailOrderShopee orderId)}}
+           {{marketplaceId}}<br>
+           {{invoiceNo}}<br>
+           {{internalStatus}}<br>
+           {{dateTime createdAt}}<br>
+           Items: <br>
+           <table class="table table-striped table-sm table-valign-middle">
+           <thead>
+             
+           <tr>
+               <th>SKU</th>
+               <th>Name</th>
+               <th>Qty</th>
+               <th>Availability</th>
+             </tr>
+             </thead>
+<tbody>
+           {{#each orders.items}}
+           <tr>
+             <td>{{ this.item_sku}}</td>
+             <td>{{ this.item_name}}</td>
+             <td>{{ this.variation_quantity_purchased}}</td>
+             <td>{{ this.variation_quantity_purchased}}</td>
+           </tr>
+           {{/each}}
+            </tbody>
+           <!-- {{ this._id}} -->
+           </table>
+           {{/with}}
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default float-right" data-dismiss="modal">Close</button>
+          <button type="button" class="btnRejectOrder btn btn-danger">Reject</button>
+          <button type="button" class="btnAcceptOrder btn btn-primary">Process</button>
+        </div>
+      </div>
+    </div>
+    </div>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Order Lazada -->
+        <div class="row">
+          <div class="col-lg-12">
+             <div class="card">
+              <div class="card-header border-0">
+                <h3 class="card-title">New Order Lazada</h3>
+                <div class="card-tools">
+                  {{#with countDataLazada}}
+                  <span class="badge badge-danger">{{NewOrder}}</span>
+                  {{/with}}
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-sm table-valign-middle">
+                  <thead>
+                    <tr>
+                      <th>Marketplace</th>
+                      <th>Brand</th>
+                      <th>Invoice No/Order Id</th>
+                      <th>Status</th>
+                      <th>Sts MP</th>
+                      <th>Create Time</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each newOrderLazada}}
+                    <tr>
+                      <td>{{marketplaceId}}</td>
+                      <td>{{#with (storeName shopId)}}{{this}}{{/with}}</td>
+                      <td>{{orderId}}</td>
+                      <td>
+                          <span class="badge bg-danger">{{internalStatus}}</span>
+                      </td>
+                      <td>
+                          <span class="badge bg-danger">{{mpStatus}}</span>
+                      </td>
+                      <td>{{dateTime mpCreateTime}}</td>
+                      <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalViewShopeeDetail{{_id}}"><i class="fas fa-eye"></i></button></td>
+                    </tr>
+                     <!-- INPUT Orders -->
+    <div class="modal  fade" id="modalViewShopeeDetail{{_id}}">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Order Detail Lazada</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+           {{#with (detailOrderShopee orderId)}}
+           {{marketplaceId}}<br>
+           {{invomiceNo}}<br>
+           {{mpStatus}}<br>
+           {{dateTime createdAt}}<br>
+           Items: <br>
+           <table class="table table-striped table-sm table-valign-middle">
+           <thead>
+             
+           <tr>
+               <th>SKU</th>
+               <th>Name</th>
+               <th>Qty</th>
+               <th>Availability</th>
+             </tr>
+             </thead>
+          <tbody>
+           
+           <!-- {{#each orders}} -->
+           
+           
+           <tr>
+             <!-- {{this}} -->
+             <td>{{ordersn}}{{item_id}}{{ this.item_sku}}</td>
+             <td>{{ this.item_name}}</td>
+             <td>{{ this.variation_quantity_purchased}}</td>
+             <td>{{ this.variation_quantity_purchased}}</td>
+           </tr>
+           <!-- {{/each}} -->
+            </tbody>
+           <!-- {{ this._id}} -->
+           </table>
+           {{/with}}
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default float-right" data-dismiss="modal">Close</button>
+          <button type="button" class="btnAcceptOrder btn btn-danger">Reject Order</button>
+          <button type="button" class="btnAcceptOrder btn btn-primary">Accept Order</button>
+        </div>
+      </div>
+    </div>
+    </div>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Order Bukalapak -->
+        <div class="row">
+          <div class="col-lg-12">
+             <div class="card">
+              <div class="card-header border-0">
+                <h3 class="card-title">New Order Bukalapak</h3>
+                <div class="card-tools">
+                  {{#with countDataBukalapak}}
+                  <span class="badge badge-danger">{{NewOrder}}</span>
+                  {{/with}}
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-sm table-valign-middle">
+                  <thead>
+                    <tr>
+                      <th>Marketplace</th>
+                      <th>Brand</th>
+                      <th>Invoice No/Order Id</th>
+                      <th>Status</th>
+                      <th>Sts MP</th>
+                      <th>Create Time</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each newOrderBukalapak}}
+                    <tr>
+                      <td>{{marketplaceId}}</td>
+                      <td>{{#with (storeName shopId)}}{{this}}{{/with}}</td>
+                      <td>{{orderId}}</td>
+                      <td>
+                          <span class="badge bg-danger">{{internalStatus}}</span>
+                      </td>
+                      <td>
+                          <span class="badge bg-danger">{{mpStatus}}</span>
+                      </td>
+                      <td>{{dateTime mpCreateTime}}</td>
+                      <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalViewDetailBukalapak{{_id}}"><i class="fas fa-eye"></i></button></td>
+                    </tr>
+                     <!-- INPUT Orders -->
+    <div class="modal  fade" id="modalViewDetailBukalapak{{_id}}">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Order Detail Bukalapak</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+           {{#with (detailOrderBukalapak orderId)}}
+           {{marketplaceId}}<br>
+           {{invoiceNo}}<br>
+           {{internalStatus}}<br>
+           {{dateTime createdAt}}<br>
+           Items: <br>
+           <table class="table table-striped table-sm table-valign-middle">
+           <thead>
+             
+           <tr>
+               <th>SKU</th>
+               <th>Name</th>
+               <th>Qty</th>
+               <th>Availability</th>
+             </tr>
+             </thead>
+<tbody>
+           {{#each this.orders.items}}
+           <tr>
+             <td>{{ this.stuff.sku_name}}</td>
+             <td>{{ this.name}}</td>
+             <td>{{ this.quantity}}</td>
+             <td>{{ this.quantity}}</td>
+           </tr>
+           {{/each}}
+            </tbody>
+           <!-- {{ this._id}} -->
+           </table>
+           {{/with}}
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default float-right" data-dismiss="modal">Close</button>
+          <button type="button" class="btnAcceptOrder btn btn-danger">Reject Order</button>
+          <button type="button" class="btnAcceptOrder btn btn-primary">Accept Order</button>
+        </div>
+      </div>
+    </div>
+    </div>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Order Blibli -->
+        <div class="row">
+          <div class="col-lg-12">
+             <div class="card">
+              <div class="card-header border-0">
+                <h3 class="card-title">New Order Blibli</h3>
+                <div class="card-tools">
+                  {{#with countDataBlibli}}
+                  <span class="badge badge-danger">{{NewOrder}}</span>
+                  {{/with}}
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-sm table-valign-middle">
+                  <thead>
+                    <tr>
+                      <th>Marketplace</th>
+                      <th>Brand</th>
+                      <th>Invoice No/Order Id</th>
+                      <th>Status</th>
+                      <th>Sts MP</th>
+                      <th>Create Time</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each newOrderBlibli}}
+                    <tr>
+                      <td>{{marketplaceId}}</td>
+                      <td>{{#with (storeName shopId)}}{{this}}{{/with}}</td>
+                      <td>{{orderId}}</td>
+                      <td>
+                          <span class="badge bg-danger">{{internalStatus}}</span>
+                      </td>
+                      <td>
+                          <span class="badge bg-danger">{{mpStatus}}</span>
+                      </td>
+                      <td>{{dateTime mpCreateTime}}</td>
+                      <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalViewDetail{{_id}}"><i class="fas fa-eye"></i></button></td>
+                    </tr>
+                     <!-- INPUT Orders -->
+    <div class="modal  fade" id="modalViewDetail{{_id}}">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Order Detail Blibli</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+           {{#with (detailOrderBlibli orderId)}}
+           {{marketplaceId}}<br>
+           {{invoiceNo}}<br>
+           {{internalStatus}}<br>
+           {{dateTime createdAt}}<br>
+           Items: <br>
+           <table class="table table-striped table-sm table-valign-middle">
+           <thead>
+             
+           <tr>
+               <th>SKU</th>
+               <th>Name</th>
+               <th>Qty</th>
+               <th>Availability</th>
+             </tr>
+             </thead>
+<tbody>
+           {{#each this.orders.orderItems}}
+           <tr>
+             <td>{{ this.blibliSku}}</td>
+             <td>{{ this.blibliSkuName}}</td>
+             <td>{{ this.quantity}}</td>
+             <td>{{ this.quantity}}</td>
+           </tr>
+           {{/each}}
+            </tbody>
+           <!-- {{ this._id}} -->
+           </table>
+           {{/with}}
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default float-right" data-dismiss="modal">Close</button>
+          <button type="button" class="btnAcceptOrder btn btn-danger">Reject Order</button>
+          <button type="button" class="btnAcceptOrder btn btn-primary">Accept Order</button>
+        </div>
+      </div>
+    </div>
+    </div>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Order Zalora -->
+        <div class="row">
+          <div class="col-lg-12">
+             <div class="card">
+              <div class="card-header border-0">
+                <h3 class="card-title">New Order Zalora</h3>
+                <div class="card-tools">
+                  {{#with countDataZalora}}
+                  <span class="badge badge-danger">{{NewOrder}}</span>
+                  {{/with}}
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-sm table-valign-middle">
+                  <thead>
+                    <tr>
+                      <th>Marketplace</th>
+                      <th>Brand</th>
+                      <th>Invoice No/Order Id</th>
+                      <th>Status</th>
+                      <th>Sts MP</th>
+                      <th>Create Time</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each newOrderZalora}}
+                    <tr>
+                      <td>{{marketplaceId}}</td>
+                      <td>{{#with (storeName shopId)}}{{this}}{{/with}}</td>
+                      <td>{{orderId}}</td>
+                      <td>
+                          <span class="badge bg-danger">{{internalStatus}}</span>
+                      </td>
+                      <td>
+                          <span class="badge bg-danger">{{mpStatus}}</span>
+                      </td>
+                      <td>{{dateTime mpCreateTime}}</td>
+                      <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalViewDetail{{_id}}"><i class="fas fa-eye"></i></button></td>
+                    </tr>
+                     <!-- INPUT Orders -->
+    <div class="modal  fade" id="modalViewDetail{{_id}}">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Order Detail Zalora</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+           {{#with (detailOrderZalora orderId)}}
+           {{marketplaceId}}<br>
+           {{invoiceNo}}<br>
+           {{internalStatus}}<br>
+           {{dateTime createdAt}}<br>
+           Items: <br>
+           <table class="table table-striped table-sm table-valign-middle">
+           <thead>
+             
+           <tr>
+               <th>SKU</th>
+               <th>Name</th>
+               <th>Qty</th>
+               <th>Availability</th>
+             </tr>
+             </thead>
+<tbody>
+           {{#each this.orders.order_info.order_detail}}
+           <tr>
+             <td>{{ this.sku}}</td>
+             <td>{{ this.product_name}}</td>
+             <td>{{ this.quantity}}</td>
+             <td>{{ this.quantity}}</td>
+           </tr>
+           {{/each}}
+            </tbody>
+           <!-- {{ this._id}} -->
+           </table>
+           {{/with}}
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default float-right" data-dismiss="modal">Close</button>
+          <button type="button" class="btnAcceptOrder btn btn-danger">Reject Order</button>
+          <button type="button" class="btnAcceptOrder btn btn-primary">Accept Order</button>
+        </div>
+      </div>
+    </div>
+    </div>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Order JDid -->
+        <div class="row">
+          <div class="col-lg-12">
+             <div class="card">
+              <div class="card-header border-0">
+                <h3 class="card-title">New Order JDid</h3>
+                <div class="card-tools">
+                  {{#with countDataJdid}}
+                  <span class="badge badge-danger">{{NewOrder}}</span>
+                  {{/with}}
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-sm table-valign-middle">
+                  <thead>
+                    <tr>
+                      <th>Marketplace</th>
+                      <th>Brand</th>
+                      <th>Invoice No/Order Id</th>
+                      <th>Status</th>
+                      <th>Sts MP</th>
+                      <th>Create Time</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each newOrderJdid}}
+                    <tr>
+                      <td>{{marketplaceId}}</td>
+                      <td>{{#with (storeName shopId)}}{{this}}{{/with}}</td>
+                      <td>{{orderId}}</td>
+                      <td>
+                          <span class="badge bg-danger">{{internalStatus}}</span>
+                      </td>
+                      <td>
+                          <span class="badge bg-danger">{{mpStatus}}</span>
+                      </td>
+                      <td>{{dateTime mpCreateTime}}</td>
+                      <td><button class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalViewDetail{{_id}}"><i class="fas fa-eye"></i></button></td>
+                    </tr>
+                     <!-- INPUT Orders -->
+    <div class="modal  fade" id="modalViewDetail{{_id}}">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Order Detail JDid</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+           {{#with (detailOrderJdid orderId)}}
+           {{marketplaceId}}<br>
+           {{invoiceNo}}<br>
+           {{internalStatus}}<br>
+           {{dateTime createdAt}}<br>
+           
+           Items: <br>
+           <table class="table table-striped table-sm table-valign-middle">
+           <thead>
+             
+           <tr>
+               <th>SKU</th>
+               <th>Name</th>
+               <th>Qty</th>
+               <th>Availability</th>
+             </tr>
+             </thead>
+<tbody>
+           {{#each orders.orderSkuinfos}}
+           <tr>
+             <td>{{this.skuId}}</td>
+             <td>{{ this.skuName}}</td>
+             <td>{{ this.skuNumber}}</td>
+             <td>{{ this.skuNumber}}</td>
+           </tr>
+           {{/each}}
+            </tbody>
+           <!-- {{ this._id}} -->
+           </table>
+           {{/with}}
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default float-right" data-dismiss="modal">Close</button>
+          <button type="button" class="btnAcceptOrder btn btn-danger">Reject Order</button>
+          <button type="button" class="btnAcceptOrder btn btn-primary">Accept Order</button>
+        </div>
+      </div>
+    </div>
+    </div>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+  </div>
+ </template>

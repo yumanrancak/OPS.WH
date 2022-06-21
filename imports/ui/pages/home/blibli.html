@@ -1,0 +1,236 @@
+<template name="App_blibli">
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Welcome Blibli</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Welcome</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-2 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>{{countNewOrder}}</h3>
+                <p>New Orders</p>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-2 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>{{countProcess}}</h3>
+
+                <p>Process</p>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-2 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>{{countShipping}}</h3>
+
+                <p>Shipping</p>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-2 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>{{countDevivered}}</h3>
+
+                <p>Delivered</p>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-2 col-6">
+            <!-- small box -->
+            <div class="small-box bg-dark">
+              <div class="inner">
+                <h3>{{countCompleted}}</h3>
+
+                <p>Completed</p>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-2 col-6">
+            <!-- small box -->
+            <div class="small-box bg-dark">
+              <div class="inner">
+                <h3>{{countCancel}}</h3>
+
+                <p>Canceled</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+             <div class="card">
+              <div class="card-header border-0">
+                <h3 class="card-title">New Order</h3>
+                <div class="card-tools">
+                  <a href="#" class="btn btn-tool btn-sm">
+                    <i class="fas fa-download"></i>
+                  </a>
+                  <a href="#" class="btn btn-tool btn-sm">
+                    <i class="fas fa-bars"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-sm table-valign-middle">
+                  <thead>
+                    <tr>
+                      <th>Marketplace</th>
+                      <th>Brand</th>
+                      <th>Invoice No</th>
+                      <th>Status</th>
+                      <th>Sts MP</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each newOrder}}
+                    <tr>
+                      <td>{{marketplaceId}}</td>
+                      <td>{{#with (storeName orders.seller_id)}}{{this}}{{/with}}</td>
+                      <td>
+                        <small class="text-success mr-1">
+                          {{orders.data.trade_order_id}}
+                        </small>
+                      </td>
+                      <td>
+                          <span class="badge bg-danger">{{internalStatus}}</span>
+                      </td>
+                      <td>
+                          <span class="badge bg-danger">{{orders.data.order_status}}</span>
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+           <!-- <div class="col-lg-4">
+             <div class="card">
+              <div class="card-header border-0">
+                <h3 class="card-title">Order Process</h3>
+                <div class="card-tools">
+                  <a href="#" class="btn btn-tool btn-sm">
+                    <i class="fas fa-download"></i>
+                  </a>
+                  <a href="#" class="btn btn-tool btn-sm">
+                    <i class="fas fa-bars"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-sm table-valign-middle">
+                  <thead>
+                    <tr>
+                      <th>Marketplace</th>
+                      <th>Brand</th>
+                      <th>Invoice No</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each orderProcess}}
+                    <tr>
+                      <td>{{marketplaceId}}</td>
+                      <td>{{orders.shop_id}}</td>
+                      <td>
+                        <small class="text-success mr-1">
+                          {{orders.invoice_ref_num}}
+                        </small>
+                      </td>
+                      <td>
+                          <span class="badge bg-danger">{{internalStatus}}</span>
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div> -->
+           <div class="col-lg-6">
+             <div class="card">
+              <div class="card-header border-0">
+                <h3 class="card-title">Order Process Fulfilled</h3>
+                <div class="card-tools">
+                  <a href="#" class="btn btn-tool btn-sm">
+                    <i class="fas fa-download"></i>
+                  </a>
+                  <a href="#" class="btn btn-tool btn-sm">
+                    <i class="fas fa-bars"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-sm table-valign-middle">
+                  <thead>
+                    <tr>
+                      <th>Marketplace</th>
+                      <th>Brand</th>
+                      <th>Invoice No</th>
+                      <th>Status</th>
+                      <th>Sts MP</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each orderFulfill}}
+                    <tr>
+                      <td>{{marketplaceId}}</td>
+                      <td>{{#with (storeName orders.seller_id)}}{{this}}{{/with}}</td>
+                      <td>
+                        <small class="text-success mr-1">
+                          {{orders.data.trade_order_id}}
+                        </small>
+                      </td>
+                      <td>
+                          <span class="badge bg-danger">{{internalStatus}}</span>
+                      </td>
+                      <td>
+                          <span class="badge bg-danger">{{orders.data.order_status}}</span>
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+  </div>
+</template>

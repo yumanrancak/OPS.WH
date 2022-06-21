@@ -1,0 +1,63 @@
+Notes:
+
+It’s common to use passphrase enabled.
+SSH keys to add an extra layer of protection to your SSH keys.
+You can use those keys with mup too.
+In order to do that, you need to use ssh-agent.
+
+Here’s the process:
+
+Remove the pem field from mup.js so your mup.js has username and host only.
+$ eval $(ssh-agent)
+$ ssh-add firdaus@gcp.pem
+
+./ngrok http 3000
+
+Logs:
+$ cd .deploy
+$ mup logs -f --tail=50
+
+Deploy:
+$ cd .deploy
+$ mup deploy
+
+If network error redeploy:
+$ cd .deploy
+$ mup deploy --cached-build
+
+You’ll be asked to enter the passphrase to the key.
+After that, simply invoke mup commands and they’ll just work.
+Once you’ve deployed your app, kill ssh agent with ssh-agent -k.
+
+API MP Login:
+https://erp.egogohub.com/cron/apimptoken.php
+https://erp.egogohub.com/cron/apimptoken.php?channel=blibli&brand=soul
+
+Detail Order:
+https://erp.egogohub.com/cron/sync_shopee3.php?act=getSingleOrderItem&shopid=311304946&orderid=2111119AE277Y5
+
+Url 	: /get-all/product
+type 	: GET
+params 	: limit
+example : /get-all?limit=2
+
+Url 	: /get-sku
+type 	: GET
+params 	: sku
+example : /get-sku/2LENTSW
+
+Url 	: /update-stock
+type 	: POST
+params 	: s
+example	: - /update-stock?s=in
+          - /update-stock?s=out
+body 	: sku, stock
+
+CREATE USER 'egogo'@'localhost' IDENTIFIED BY '3g0g0it';
+CREATE USER 'egogo'@'%' IDENTIFIED BY '3g0g0it';
+
+GRANT ALL ON *.* TO 'egogo'@'localhost';
+GRANT ALL ON *.* TO 'egogo'@'%';
+
+SELECT * from information_schema.user_privileges where grantee like "'egogo'%";
+FLUSH PRIVILEGES;

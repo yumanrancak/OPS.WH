@@ -1,0 +1,465 @@
+<template name='header'>
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
+
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Messages Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-bell"></i>
+          <span class="badge badge-warning navbar-badge">{{notificationCount}}</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <!-- <span class="dropdown-header">15 Notifications</span> -->
+          <!-- <div class="dropdown-divider"></div> -->
+          {{#each notifications}}
+          <a class="dropdown-item text-sm markRead">
+            <p><i class="fas fa-envelope mr-2 "></i> {{msg}}<br>
+              <span class="text-muted text-sx">{{dateTime createdAt}}</span>
+            </p>
+          </a>
+          <div class="dropdown-divider"></div>
+          {{/each}}
+          <a href="/notificationsdash/notifications" class="dropdown-item dropdown-footer">See All Notifications</a>
+          <a href="/" class="dropdown-item dropdown-footer markReadAll">Mark Read All Notifications</a>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button"><i
+            class="fas fa-th-large"></i></a>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-light-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="/" class="brand-link">
+      <img src="/egogo_c.png" alt="Egogo" class="" style="opacity: .8; width: 100%;">
+      <span class="brand-text font-weight-light"></span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        {{#if currentUser}}
+        <div class="info">
+          <a class="d-block">{{username.username}}<br>
+            <small>{{dateTime createdAt}}</small><br>
+            <!-- <small>{{#let orgname = (org username.profile.organizationId)}}{{orgname}}{{/let}}</small>-->
+          </a>
+        </div>
+        {{else}}
+        <div class="image">
+          <!-- <img src="/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
+        </div>
+        <div class="info">
+          <a href="/login" class="d-block">Login</a>
+        </div>
+        {{/if}}
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="/home">
+              <i class="nav-icon fas fa-globe"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+          </li> -->
+          <li class="nav-item has-treeview">
+            <a class="nav-link" id="menuDash" href="/home">
+              <i class="nav-icon fas fa-globe"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/home" class="nav-link" id="menuDashOrders">
+                  <p><small>Orders</small></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/dashboard/fulfillment" class="nav-link" id="menuDashFullfilment">
+                  <p><small>Fulfillment</small></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/dashboard/fulfillmentday" class="nav-link" id="menuDashFullfilmentDay">
+                  <p><small>Fulfillment Daily</small></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/dashboard/fulfillmentmonth" class="nav-link" id="menuDashFullfilmentDay">
+                  <p><small>Fulfillment Month</small></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/dashboard/movement" class="nav-link" id="menuDashMovement">
+                  <p><small>Movement</small></p>
+                </a>
+              </li>
+              <!-- <li class="nav-item">
+                <a href="/dashboard/shopee" class="nav-link" id="menuDashShopee">
+                  <p><small>Shopee</small></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/dashboard/lazada" class="nav-link" id="menuDashLazada">
+                  <p><small>Lazada</small></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/dashboard/bukalapak" class="nav-link" id="menuDashBukalapak">
+                  <p><small>Bukalapak</small></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/dashboard/blibli" class="nav-link" id="menuDashBlibli">
+                  <p><small>Blibli</small></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/dashboard/zalora" class="nav-link" id="menuDashZalora">
+                  <p><small>Zalora</small></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/dashboard/jdid" class="nav-link" id="menuDashJdid">
+                  <p><small>JDid</small></p>
+                </a>
+              </li> -->
+            </ul>
+          </li>
+          <!-- <li class="nav-item has-treeview">
+            <a class="nav-link" id="menuMp" href="/marketplace">
+              <i class="nav-icon fas fa-shopping-cart"></i>
+              <p>
+                Marketplace
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/marketplace" class="nav-link" id="menuMpMarketplace">
+                  <p><small>Marketplace</small></p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/brand/list" class="nav-link" id="menuMpBrand">
+                  <p><small>Brand</small></p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/shopMp" class="nav-link" id="menuMpMarketplace">
+                  <p><small>Shop Id</small></p>
+                </a>
+              </li>
+            </ul>
+          </li> -->
+          <!-- </li> -->
+          <!-- <li class="nav-item has-treeview">
+            <a class="nav-link" id="menuMp" href="/fufillment">
+              <i class="nav-icon fas fa-tasks"></i>
+              <p>
+                Fulfillment
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/acceptOrders" class="nav-link" id="menuAcceptOrders">
+                  <p><small>Accept Orders</small></p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/productPickList" class="nav-link" id="menuProductPickList">
+                  <p><small>Product Pick List</small></p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/printLabel" class="nav-link" id="menuPrintLabel">
+                  <p><small>Print Label</small></p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/shortingMatching" class="nav-link" id="menuMpExternal">
+                  <p><small>Shorting & Matching</small></p>
+                </a>
+              </li>
+            </ul>
+
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/short3pl" class="nav-link" id="menuShort3Pl">
+                  <p><small>Shorting By 3PL</small></p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/handover3pl" class="nav-link" id="menuHandover3pl">
+                  <p><small>Handover 3PL</small></p>
+                </a>
+              </li>
+            </ul>
+          </li> -->
+          <li class="nav-item has-treeview">
+            <a class="nav-link" id="menuMp" href="#">
+              <i class="nav-icon fas fa-archive"></i>
+              <p>
+                Inbound
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/inbound/approve_list" class="nav-link" id="approve">
+                  <p><small>Approve List</small></p>
+                </a>
+              </li>
+            </ul>
+            <!-- <ul class="nav nav-treeview">
+              <li class="nav-item">
+                {{#each notifapprove}}
+                <a href="" class="nav-link" id="approve">
+                  <p><small>Assignment</small></p>
+                  <a class="badge badge-inverse float-right"
+                    style="background-color:red;color:wheat;font-size: inherit;border-radius: 40px;"><b>{{count}}</b></a>
+                </a>
+                {{/each}}
+              </li>
+            </ul> -->
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/inbound/do_create" class="nav-link" id="do_create">
+                  <p><small>Form Delivery Order</small></p>
+                </a>
+              </li>
+            </ul>
+
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/inbound/manual_inbound" class="nav-link" id="manual_inbound">
+                  <p><small>Manual Inbound</small></p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a class="nav-link" id="menuMp" href="#">
+              <i class="nav-icon fas fa-barcode"></i>
+              <p>
+                Scan Validate 1
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/ScanSMU/scanvalidasi1" class="nav-link" id="menuScanValidasi1">
+                  <p><small>Scan Validate 1</small></p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/ScanSMU/dash_error_log" class="nav-link" id="menuErrorlog">
+                  <p><small>Scan Log Erorr 1</small></p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a class="nav-link" id="MenuPL" href="#">
+              <i class="nav-icon fas fa-list"></i>
+              <p>
+                Pick List
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/pick_list/dashboard_list" class="nav-link" id="MenudashboardPickList">
+                  <p><small>Dashboard Pick List</small></p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/pick_list/pick_list" class="nav-link" id="MenuPickList">
+                  <p><small>Create Pick List</small></p>
+                </a>
+              </li>
+            </ul>
+            <!-- <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/pick_list/batch_list" class="nav-link" id="MenuBatchPickList">
+                  <p><small>Batch Pick List</small></p>
+                </a>
+              </li>
+            </ul> -->
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/pick_list/accept_list" class="nav-link" id="MenuAcceptPickList">
+                  <p><small>Accept Pick List</small></p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/pick_list/complete_list" class="nav-link" id="MenucompletePickList">
+                  <p><small>Completed Pick List</small></p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/pick_list/dash_error_picklist" class="nav-link" id="MenuErrorPickList">
+                  <p><small>Erorr Log Pick List</small></p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a class="nav-link" id="menuMp" href="#">
+              <i class="nav-icon fas fa-qrcode"></i>
+              <p>
+                Scan Validate 2
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/ScanSMU2/scan_smu_kurir" class="nav-link" id="menuscanSMUKurir">
+                  <!-- <i class="nav-icon fas fa-plus-circle"></i> -->
+                  <p><small>Scan Validate 2</small></p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/ScanSMU2/dash_error_log2" class="nav-link" id="menuErrorlog2">
+                  <p><small>Scan Log Erorr2</small></p>
+                </a>
+              </li>
+            </ul>
+            <!-- <ul class="nav nav-treeview">
+              <li class="nav-item ">
+                <a href="/dash_validation" class="nav-link" id="menuValidationdash">
+                  <p><small>
+                      Validation Dashboard</small>
+                  </p>
+                </a>
+              </li>
+            </ul> -->
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="menuCancel" href="/dashboard/dashboard_cancel_list">
+              <i class="nav-icon fas fa-newspaper"></i>
+              <p>
+                Review Order
+              </p>
+            </a>
+            <!-- <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/dashboard/dashboard_cancel_list" class="nav-link" id="menuCancel">
+                  <p><small>Cancel Order</small></p>
+                </a>
+              </li>
+            </ul> -->
+          </li>
+          <li class="nav-item has-treeview">
+            <a class="nav-link" id="menuDash" href="#">
+              <i class="nav-icon fas fa-file"></i>
+              <p>
+                Report
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <!-- <li class="nav-item">
+                <a href="/report/reportscan1" class="nav-link" id="menuReportScan1">
+                  <p><small>Report Scan Validate 1</small></p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/report/reportpicklist" class="nav-link" id="menuReportPL">
+                  <p><small>Report Pick List</small></p>
+                </a>
+              </li> -->
+              <li class="nav-item">
+                <a href="/report/reportscan2" class="nav-link" id="menuReportScan2">
+                  <p><small>Report Scan Validation 2</small></p>
+                </a>
+              </li>
+              <!-- <li class="nav-item">
+                <a href="/report/reportstockout" class="nav-link" id="menuReportSOUt">
+                  <p><small>Report Stock Offline Out</small></p>
+                </a>
+              </li> -->
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
+            <a class="nav-link" id="Menustock_out3" href="/stock_out/stock_out3">
+              <i class="nav-icon fas fa-database"></i>
+              <p>
+                Manual Stock
+              </p>
+            </a>
+            <!-- <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a  class="nav-link" id="Menustock_out3">
+                  <p><small>Manual Stock</small></p>
+                </a>
+              </li>
+            </ul> -->
+          </li>
+          <li class="nav-item">
+            <a class="nav-link logout">
+              <i class="nav-icon fas fa-cogs"></i>
+              <p>
+                Log Out
+                <!-- <span class="right badge badge-success">10</span> -->
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+      <h5>Judul</h5>
+      <p>Sidebar content</p>
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->
+
+</template>

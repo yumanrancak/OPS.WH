@@ -1,0 +1,667 @@
+<template name="stock_out3">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> -->
+  <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.material.min.css"> -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">MANUAL STOCK || RUNRATE</h1>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <!-- Order Scan -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header border-0">
+                <ul class="nav nav-tabs mb-3" id="pills-tab">
+                  <li class="nav-item ">
+                    <a class="nav-link active btnactive " id="pills-in-tab" data-toggle="pill" href="#pills-in"
+                      role="tab" aria-controls="pills-in" aria-selected="true">IN</a>
+                  </li>
+                  <li class="nav-item ">
+                    <a class="nav-link  btnactive " id="pills-out-tab" data-toggle="pill" href="#pills-out" role="tab"
+                      aria-controls="pills-out" aria-selected="false">OUT</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link btnactive" id="pills-broken-tab" data-toggle="pill" href="#pills-broken"
+                      role="tab" aria-controls="pills-profile" aria-selected="false">BROKEN</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link btnactive" id="pills-transfer-tab" data-toggle="pill" href="#pills-transfer"
+                      role="tab" aria-controls="pills-contact" aria-selected="false">TRANSFER</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link btnactive" id="pills-Data-tab" data-toggle="pill" href="#pills-report" rol="tab"
+                      aria-controls="pills-contact" aria-selected="false">REPORT</a>
+                  </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                  <div class="tab-pane fade show active" id="pills-in" aria-labelledby="pills-in-tab">
+                    <div class="col-md-12">
+                      <a class="badge badge-success float-right" style="font-size: large;">{{countin}}</a>
+                      <label class="float-right">Stock In Today : &nbsp;</label>
+                    </div>
+                    <div class="card-body">
+                      <div class="row " style="place-content: center;">
+                        <h5><b> STOCK IN </b>
+                        </h5> &nbsp;&nbsp;
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-body table-responsive">
+                        <table class="table table-striped table-sm table-valign-middle" id="table-out">
+                          <thead>
+                            <tr style="width: auto;">
+                              <th>Barcode</th>
+                              <th>Label Product</th>
+                              <th>Qty</th>
+                              <th style="width: 200px;">Status</th>
+                              <th>Expired</th>
+                              <th>Warehouse</th>
+                              <th>Timestamp</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td class="text-success mr-1 col-2">
+                                <a style="color: red;" href="#" id="scanherein" class="scanherein"><i>Scan Here</i></a>
+                                <input class="form-control" type="text" id="inscaning" style="display: none;">
+                              </td>
+                              {{#if ne label ""}}
+                              <td class="col-lg-3">{{label}}</td>
+                              {{else}}
+                              <td></td>
+                              {{/if}}
+                              <td id="tdqty">
+                                <input class="form-control" type="text" style="display: none;width: 80px"
+                                  id="inputqtyin">
+                              </td>
+                              <td class="col-lg-1" id="tdselectcat1">
+                                <div id="select2in" class="col-lg-1" style="display: none;">
+                                  <select class="form-control" style="width: 160px;" id="selectstatus1in">
+                                    <option value=""></option>
+                                    <option value="innew" selected="{{selectCategory 'innew'}}">In-New</option>
+                                    <option value="inreturn" selected="{{selectCategory 'inreturn'}}">In-Return</option>
+                                  </select>
+                                </div>
+                              </td>
+                              <td class="col-lg-1" id="tdselectexp">
+                                <!-- <div id="expiredin" class="col-lg-1" style="display: none;"> -->
+                                  <input type="datetime-local" step="2" id="expiredselectin" class="form-control col-lg-12" style="display: none;">
+                                  <!-- <select class="form-control" style="width: 200px;" id="expiredselectin">
+                                    <option value=""></option>
+                                    {{#each getexpired}}
+                                    <option value={{expired_date}} type="datetime-local"
+                                      selected="{{selectExpired expired_date}}">{{dateTime expired_date}}</option>
+                                    {{/each}}
+                                  </select> -->
+                                <!-- </div> -->
+                              </td>
+                              <td>
+                                <div id="whin" class="col-lg-1" style="display: none;">
+                                  <select class="form-control" style="width: 200px;" id="warehousein">
+                                    <option value="">--None--</option>
+                                    {{#each warehouse}}
+                                    <option value={{_id}} selected={{selectWarehousein _id}}>{{warehouseName}}</option>
+                                    {{/each}}
+                                  </select>
+                                </div>
+                              </td>
+                              <!-- <td>
+                                  <input type="datetime-local" step="2" id="expired" class="form-control col-lg-12" style="display: none;">
+                              </td> -->
+                              <td>
+                                <input type="datetime-local" step="2" id="datenowin" class="form-control col-lg-12"
+                                  style="display: none;" readonly>
+                              </td>
+                              <td>
+                                <div class="btn-group" id="save">
+                                  <button class="btn btn-xs btn-success btnsave" id="saverowin"
+                                    style="display: none;"><i class="fas fa-save"></i></button>
+                                  <button class="btn btn-xs btn-danger btnupdate" id="updaterowin"
+                                    style="display: none;"><i class="fas fa-save"></i></button>&nbsp;&nbsp;
+                                  <button class="btn btn-xs btn-primary btnactive" id="clearin"
+                                    style="display: none;"><i class="fas fa-minus"></i></button>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <hr>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="card">
+                          <div class="card-header border-0">
+                            <h3 class="card-title">Stock In Data Extend</h3>
+                            <div class="card-tools">
+                              <div class="btn-group float-right" style="margin-right: 100px;">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card-body ">
+                            {{> reactiveTable class="table table-striped table-sm table-valign-middle"
+                            settings=settingin}}
+                            <div class="btn-group float-right" style="margin-right: 20px;">
+                              <button class="btn btn-xs btn-dark btnSubmit4"
+                                style="border-radius: 40px; width: 100px;"><b>Submit</b></button>
+                            </div>
+                          </div><br>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade show" id="pills-out" aria-labelledby="pills-out-tab">
+                    <div class="col-md-12">
+                      <a class="badge badge-success float-right" style="font-size: large;">{{countout}}</a>
+                      <label class="float-right">Stock Out Today : &nbsp;</label>
+                    </div>
+                    <div class="card-body">
+                      <div class="row " style="place-content: center;">
+                        <h5><b> STOCK OUT </b></h5> &nbsp;&nbsp;
+                      </div>
+                    </div>
+                    <div class="card-body table-responsive">
+                      <table class="table table-striped table-sm table-valign-middle" id="table-out">
+                        <thead>
+                          <tr style="width: auto;">
+                            <th>Barcode</th>
+                            <th>Label Product</th>
+                            <th>Qty</th>
+                            <th style="width: 200px;">Status</th>
+                            <th>Expired</th>
+                            <th>Timestamp</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-success mr-1 col-2">
+                              <a style="color: red;" href="#" id="scanhere" class="scanhere"><i>Scan Here</i></a>
+                              <input class="form-control" type="text" id="scaning" style="display: none;">
+                            </td>
+                            {{#if ne label ""}}
+                            <td class="col-lg-3">{{label}}</td>
+                            {{else}}
+                            <td></td>
+                            {{/if}}
+                            <td id="tdqty">
+                              <input class="form-control" type="text" style="display: none;width: 80px" id="inputqty">
+                            </td>
+                            <td class="col-lg-1" id="tdselectcat1">
+                              <div id="select2" class="col-lg-1" style="display: none;">
+                                <select class="form-control" style="width: 160px;" id="selectstatus1">
+                                  <option value=""></option>
+                                  <option value="outkol" selected="{{selectCategory 'outkol'}}">Out-Kol</option>
+                                  <option value="outsample" selected="{{selectCategory 'outsample'}}">Out-Sample
+                                  </option>
+                                  <option value="outclaim" selected="{{selectCategory 'outclaim'}}">Out-Claim Garansi
+                                  </option>
+                                  <option value="outwithdrawal" selected="{{selectCategory 'outwithdrawal'}}">
+                                    Out-Witdrawal</option>
+                                  <option value="outincomplete" selected="{{selectCategory 'outincomplete'}}">
+                                    Out-Incomplete</option>
+                                </select>
+                              </div>
+                            </td>
+                            <td class="col-lg-1" id="tdselectexp">
+                              <div id="expired" class="col-lg-1" style="display: none;">
+                                <select class="form-control" style="width: 200px;" id="expiredselect">
+                                  <option value=""></option>
+                                  {{#each getexpired}}
+                                  <option value={{expiredAt}} type="datetime-local"
+                                    selected="{{selectExpired expiredAt}}">{{dateTime expiredAt}}</option>
+                                  {{/each}}
+                                </select>
+                              </div>
+                            </td>
+                            <!-- <td>
+                                <input type="datetime-local" step="2" id="expired" class="form-control col-lg-12" style="display: none;">
+                            </td> -->
+                            <td>
+                              <input type="datetime-local" step="2" id="datenow" class="form-control col-lg-12"
+                                style="display: none;" readonly>
+                            </td>
+                            <td>
+                              <div class="btn-group" id="save">
+                                <button class="btn btn-xs btn-success btnsave" id="saverow" style="display: none;"><i
+                                    class="fas fa-save"></i></button>
+                                <button class="btn btn-xs btn-danger btnupdate" id="updaterow" style="display: none;"><i
+                                    class="fas fa-save"></i></button>&nbsp;&nbsp;
+                                <button class="btn btn-xs btn-primary btnactive" id="clear" style="display: none;"><i
+                                    class="fas fa-minus"></i></button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <hr>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="card">
+                          <div class="card-header border-0">
+                            <h3 class="card-title">Stock Out Data Extend</h3>
+                            <div class="card-tools">
+                              <div class="btn-group float-right" style="margin-right: 100px;">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card-body ">
+                            {{> reactiveTable class="table table-striped table-sm table-valign-middle"
+                            settings=settingout}}
+                            <div class="btn-group float-right" style="margin-right: 20px;">
+                              <button class="btn btn-xs btn-dark btnSubmit"
+                                style="border-radius: 40px; width: 100px;"><b>Submit</b></button>
+                            </div>
+                          </div><br>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-broken" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-md-12">
+                      <a class="badge badge-success float-right" style="font-size: large;">{{countbroken}}</a>
+                      <label class="float-right">Stock Out Broken Today : &nbsp;</label>
+                    </div>
+                    <div class="card-body">
+                      <div class="row " style="place-content: center;">
+                        <h5><b> STOCK BROKEN </b> </h5> &nbsp;&nbsp;
+                      </div>
+                    </div>
+                    <div class="card-body table-responsive">
+                      <table class="table table-striped table-sm table-valign-middle" id="table-broken"
+                        style="width: 100%;">
+                        <thead>
+                          <tr>
+                            <th>Barcode</th>
+                            <th>Label Product</th>
+                            <th>Qty</th>
+                            <th style="width: 200px;">Status</th>
+                            <th>Timestamp</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-success mr-1 col-2">
+                              <a style="color: red;" href="#" id="scanhere2" class="scanhere2"><i>Scan Here</i></a>
+                              <input class="form-control" type="text" id="scaningbroken" style="display: none;">
+                            </td>
+                            {{#if ne label ""}}
+                            <td class="col-lg-3">{{label}}</td>
+                            {{else}}
+                            <td class="col-lg-3"></td>
+                            {{/if}}
+                            <td class="col-lg-1" id="tdqty2">
+                              <input class="form-control" type="text" style="display: none;" id="inputqty2">
+                            </td>
+                            <td class="col-lg-1" id="tdselectcat2">
+                              <div id="select3" style="display: none;" class="col-lg-1">
+                                <select class="form-control" style="width: 180px;" id="statusselect2">
+                                  <option value=""></option>
+                                  <option value="outbroken" selected="{{selectCategory 'outbroken'}}">Out-Broken
+                                  </option>
+                                  <option value="outbrokenpackage" selected="{{selectCategory 'outbrokenpackage'}}">
+                                    Out-Broken-Package</option>
+                                </select>
+                              </div>
+                            </td>
+                            <td>
+                              <input type="datetime-local" step="2" id="datenow2" class="form-control col-lg-12"
+                                style="display: none;" readonly>
+                            </td>
+                            <td>
+                              <div class="btn-group" id="save">
+                                <button class="btn btn-xs btn-success btnsave" id="saverow2" style="display: none;"><i
+                                    class="fas fa-save"></i></button>
+                                <button class="btn btn-xs btn-danger btnupdate" id="updaterow2"
+                                  style="display: none;"><i class="fas fa-save"></i></button>&nbsp;&nbsp;
+                                <button class="btn btn-xs btn-primary btnactive" id="clear2" style="display: none;"><i
+                                    class="fas fa-minus"></i></button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="card">
+                          <div class="card-header border-0">
+                            <h3 class="card-title">Stock Broken Out Data Extend</h3>
+                            <div class="card-tools">
+                              <div class="btn-group float-right" style="margin-right: 100px;">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card-body ">
+                            {{> reactiveTable class="table table-striped table-sm table-valign-middle"
+                            settings=settingbroken}}
+                            <div class="btn-group float-right" style="margin-right: 20px;">
+                              <button class="btn btn-xs btn-dark btnSubmit2"
+                                style="border-radius: 40px; width: 100px;"><b>Submit</b></button>
+                            </div>
+                          </div><br>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-transfer" role="tabpanel" aria-labelledby="pills-contact-tab">
+                    <div class="col-md-12">
+                      <a class="badge badge-success float-right" style="font-size: large;">{{counttransfer}}</a>
+                      <label class="float-right">Stock Out Transfer Today : &nbsp;</label>
+                    </div>
+                    <div class="card-body">
+                      <div class="row " style="place-content: center;">
+                        <h5><b> STOCK TRANSFER </b>
+                          <!-- <a class="badge badge-success" style="font-size: large;">{{counttransfer}}</a> -->
+                        </h5> &nbsp;&nbsp;
+                      </div>
+                    </div>
+                    <div class="card-body table-responsive">
+                      <table class="table table-striped table-sm table-valign-middle" id="table-transfer"
+                        style="width: 100%;">
+                        <thead>
+                          <tr style="width: auto;">
+                            <th>Barcode</th>
+                            <th>Label Product</th>
+                            <th>Qty</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Timestamp</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-success mr-1 col-2">
+                              <a style="color: red;" href="#" id="scanhere3" class="scanhere3"><i>Scan Here</i></a>
+                              <input class="form-control" type="text" id="scaningtransfer" style="display: none;">
+                            </td>
+                            {{#if ne label ""}}
+                            <td class="col-lg-3">{{label}}</td>
+                            {{else}}
+                            <td class="col-lg-3"></td>
+                            {{/if}}
+                            <td class="col-1" id="tdqty3">
+                              <input class="form-control" type="text" style="display: none;" id="inputqty3">
+                            </td>
+                            <td class="col-1" id="tdselectcat3">
+                              <div id="select4" style="display: none;">
+                                <select class="form-control" style="width: 180px;" id="warehousefrom">
+                                  <option value="">--None--</option>
+                                  {{#each warehouse}}
+                                  <option value={{_id}} selected={{selectWarehousefrom _id}}>{{warehouseName}}</option>
+                                  {{/each}}
+                                </select>
+                              </div>
+                            </td>
+                            <td class="col-1" id="tdselectcat4">
+                              <div id="select5" style="display: none;">
+                                <select class="form-control" style="width: 180px;" id="warehouseto">
+                                  <option value="">--None--</option>
+                                  {{#each warehouse}}
+                                  <option value={{_id}} selected={{selectWarehouseto _id}}>{{warehouseName}}</option>
+                                  {{/each}}
+                                </select>
+                              </div>
+                            </td>
+                            <td>
+                              <input type="datetime-local" step="2" id="datenow3" class="form-control col-lg-12"
+                                style="display: none;" readonly>
+                            </td>
+                            <td>
+                              <div class="btn-group">
+                                <button class="btn btn-xs btn-success btnsave" id="saverow3" style="display: none;"><i
+                                    class="fas fa-save"></i></button>
+                                <button class="btn btn-xs btn-danger btnupdate" id="updaterow3"
+                                  style="display: none;"><i class="fas fa-save"></i></button>&nbsp;&nbsp;
+                                <button class="btn btn-xs btn-primary btnactive" id="clear3" style="display: none;"><i
+                                    class="fas fa-minus"></i></button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="card">
+                          <div class="card-header border-0">
+                            <h3 class="card-title">Stock Transfer Out Data Extend</h3>
+                            <div class="card-tools">
+                              <div class="btn-group float-right" style="margin-right: 100px;">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card-body ">
+                            {{> reactiveTable class="table table-striped table-sm table-valign-middle"
+                            settings=settingtransfer}}
+                            <div class="btn-group float-right" style="margin-right: 20px;">
+                              <button class="btn btn-xs btn-dark btnSubmit3"
+                                style="border-radius: 40px; width: 100px;"><b>Submit</b></button>
+                            </div>
+                          </div><br>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade show" id="pills-report" aria-labelledby="pills-out-tab">
+                    <div class="card-body">
+                      <div class="row">
+                        <h5><b>Data</b> &nbsp;<a class="badge badge-dark"></a></h5> &nbsp;&nbsp;
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row d-flex justify-content-center text-center">
+                          <div class="col-lg-3 {{startdate}}">
+                            <label class="col-form-label float-left"> Date From </label>
+                            <input type="date" id="datefrom" class="form-control" value="{{startdate}}">
+                          </div>
+                          <div class="col-lg-3">
+                            <label class="col-form-label float-left"> Date To </label>
+                            <input type="date" id="dateto" class="form-control" value="{{enddate}}">
+                          </div>
+                        </div>
+                        <div class="row d-flex justify-content-center text-center">
+                          <div class="col-lg-6">
+                            <label class="col-form-label float-left"> Brand </label>
+                            <select class="custom-select" id="searchstatus">
+                              <option value="">-- All Brand --</option>
+                              {{#each allbrand}}
+                              <option value={{_id}} selected={{selectBrand _id}}>{{brand_name}}</option>
+                              {{/each}}
+                            </select>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="col-md-8 text-center float-right">
+                          <button class="btn btn-lg btn-success btnFilter"
+                            style=" width: 100px;"><b>Generate</b></button>
+                        </div>
+                        <!-- <div class="row d-flex justify-content-center text-center">
+                            <div class="col-lg-6">
+                              <button class="btn btn-xs btn-success float-right" style="border-radius: 40px; width: 60px;"> Filter </button>
+                            </div>
+                          </div> -->
+                      </div>
+                    </div>
+                    <div class="card-body table-responsive">
+                      <div class="row">
+                        <div class="col-lg-3">
+                          <label class="col-form-label float-left">SKU Search</label>
+                          <input type="text" id="searchsku" class="form-control">
+                        </div>
+                        <div class="col-lg-9 float-right" style="text-align-last:right;">
+                          <a class="btn btn-sm btn-warning btnprint">
+                            <i class="fas fa-print"></i>Print
+                          </a>
+                          <a type="button" class="btn btn-sm btn-primary text-white btnExport"><i
+                              class="fas fa-file-csv"></i>
+                            Export</a>
+                        </div><br>
+                      </div>
+                      <div class=" card-body Container" id="print">
+                        {{#if eq isSubscriptionR false}}
+                        <div class="spinner-border text-danger"></div>
+
+                        Loading...
+                        {{/if}}
+                        {{> reactiveTable class="table table-striped table-sm table-valign-middle"
+                        settings=report}}
+                      </div>
+                      <!-- <table class="table table-striped table-sm table-valign-middle" id="table-out">
+                         <thead>
+                           <tr style="width: auto;">
+                             <td>No</td>
+                             <th>SKU</th>
+                             <th>Label Product</th>
+                             <th>Ballance</th>
+                             <th style="width: 300px; text-align: center;">Total
+                              <tr>
+                                <td  style="width: 100px; text-align: center">
+                                  IN
+                                </td >
+                                <td style="width: 100px; text-align: center">
+                                  Out
+                                </td>
+                                <td style="width: 100px; text-align: center">
+                                  Broken
+                                </td>
+                              </tr>
+                            </th>
+                             <th style="text-align: center;">Current Stock</th>
+                           </tr>
+                         </thead>
+                         <tbody>
+                           {{#each getproduct}}
+                          <tr>
+                            <td></td>
+                            <td>{{ref}}</td>
+                            <td>{{label}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                          {{/each}}
+                          </tbody>
+                       </table> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+  </div>
+
+  <script>
+
+    // $(document).ready(function() {
+    //   var tableout = $('#table-out').DataTable({});
+
+    //   tableout.rows.add([datashow]).draw();
+    //   $('#table-broken').DataTable({
+    //   });
+    //   $('#table-transfer').DataTable({
+    //   });
+    //   $("#table-out_previous").addClass("btn");
+    //   $("#table-out_next").addClass("btn");
+
+    //   $("#table-broken_previous").addClass("btn");
+    //   $("#table-broken_next").addClass("btn");
+    //   $("#table-transfer_previous").addClass("btn");
+    //   $("#table-transfer_next").addClass("btn");
+    // } );
+    $('#tdqty').click(function () {
+      document.getElementById('inputqty').style.display = 'block';
+    });
+
+    $('#tdqty2').click(function () {
+      document.getElementById('inputqty2').style.display = 'block';
+    });
+
+    $('#tdqty3').click(function () {
+      document.getElementById('inputqty3').style.display = 'block';
+    });
+    $('#tdselectcat1').click(function () {
+      $('#select2').show();
+    });
+    $('#tdselectcat2').click(function () {
+      $('#select3').show();
+    }); $('#tdselectcat3').click(function () {
+      $('#select4').show();
+    });
+    $('#tdselectcat4').click(function () {
+      $('#select5').show();
+    });
+  </script>
+</template>
+
+<template name="editin">
+  <div class="btn-group ">
+    <button class="btn btn-xs btn-warning btnEdit1" title="edit"><i class="fas fa-edit"></i></button> &nbsp;&nbsp;&nbsp;
+    <button class="btn btn-xs btn-primary btnDelete" title="delete"><i class="fas fa-trash"></i></button>
+  </div>
+</template>
+<template name="editout">
+  <div class="btn-group ">
+    <button class="btn btn-xs btn-warning btnEdit" title="edit"><i class="fas fa-edit"></i></button> &nbsp;&nbsp;&nbsp;
+    <button class="btn btn-xs btn-primary btnDelete" title="delete"><i class="fas fa-trash"></i></button>
+  </div>
+</template>
+<template name="editbroken">
+  <div class="btn-group ">
+    <button class="btn btn-xs btn-warning btnEdit2" title="edit"><i class="fas fa-edit"></i></button> &nbsp;&nbsp;&nbsp;
+    <button class="btn btn-xs btn-primary btnDelete" title="delete"><i class="fas fa-trash"></i></button>
+  </div>
+</template>
+<template name="edittransfer">
+  <div class="btn-group ">
+    <button class="btn btn-xs btn-warning btnEdit3" title="edit"><i class="fas fa-edit"></i></button> &nbsp;&nbsp;&nbsp;
+    <button class="btn btn-xs btn-primary btnDelete" title="delete"><i class="fas fa-trash"></i></button>
+  </div>
+</template>
+
+<!-- <template name="inreport">
+  <div class="{{showbtn}} col-xs-1"> 
+    <input class="form-control col-xs-1"  id=in{{ref}} > 
+  </div>
+</template>
+
+<template name="ballancereport">
+  <div class="{{showbtn}} col-xs-1"> 
+    <input class="col-xs-1 form-control"  id=ballance{{ref}} >
+  </div>
+</template>
+
+<template name="outreport">
+  <div class="{{showbtn}} col-xs-1"> 
+    <input class="col-xs-1 form-control"  id=out{{ref}} > 
+  </div>
+</template> -->

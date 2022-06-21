@@ -1,0 +1,135 @@
+<template name="scanvalidasi1">
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Scan SMU Validation 1</h1>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <!-- Order Scan -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body" style="padding-bottom: 0;">
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Scanning Field</label>
+                  <div class="col-sm-10">
+                    <!-- <form class="form-horizontal"> -->
+                      <input type="text" class="form-control" id="notracking" placeholder="Tracking Number / Invoice Number" autofocus><br>
+                      <button class="btn btn-lg btn-info" style="float:right" id="start">Start</button>
+                   </div>
+                </div>
+                <!-- <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Scan by Invoice No</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="invoicenotrack" placeholder="Invoice No" autofocus><br>
+                        {{#if eq isSubscriptionR2 false}}
+                        <div class="spinner-border text-danger"></div>
+                        Loading...
+                        {{/if}}
+                      <button class="btn btn-lg btn-info" style="float:right" id="start">Start</button>
+                   </div>
+                </div> -->
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label>Tracking Number</label>
+                      <input type="text" value="" id="searchtrack" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label>Invoice</label>
+                      <input type="text" value="" id="searchinvs" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label>Market Place</label>
+                      <input type="text" value="" id="searchmp" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label>Shipper</label>
+                      <select class="custom-select" id="searchshipper">
+                        <option value="all_shipper">All Shipper</option>
+                        {{#each showDataKurir}}
+                        <option value="{{shipping_internal}}">{{shipping_internal}}</option>
+                        {{/each}}
+                      </select>
+                    </div>
+                  </div>
+                </div><br>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="card">
+                      <div class="card-header border-0">
+                        <h3 class="card-title">New Order</h3>
+                      </div>
+                      <div class="card-body ">
+                        {{#if eq isSubscriptionR false}}
+                        <div class="spinner-border text-danger"></div>
+                        Loading...
+                        {{/if}}
+                        {{> reactiveTable class="table table-striped table-sm table-valign-middle"
+                        settings=settingsorder}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="card">
+                      <div class="card-header border-0">
+                        <h3 class="card-title">Scan Validation 1</h3>
+                      </div>
+                      <div class="card-body ">
+                        {{#if eq isSubscriptionR false}}
+                        <div class="spinner-border text-danger"></div>
+                        Loading...
+                        {{/if}}
+                        {{> reactiveTable class="table table-striped table-sm table-valign-middle"
+                        settings=settingsvalid1}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+  </div>
+</template>
+
+
+<template name="manualaction">
+  <div class="btn-group">
+    <!-- <a href="/return/detail/{{_id}}" type="button" class="btn btn-sm btn-success text-white"><i
+        class="fas fa-eye"></i></a> -->
+    {{#if eq tracking_no ''}}
+    <!-- <a href="/return/update/{{_id}}" type="button" class="btn btn-sm btn-warning text-white"><i
+        class="fas fa-edit"></i></a> -->
+    <a type="button" class="btn btn-sm btn-info text-white btnManual"><i class="fa fa-paper-plane"
+        aria-hidden="true"></i></a>
+    {{/if}}
+    <!-- <a type="button" class="btn btn-sm btn-success text-white btnView" data-toggle="modal"
+      data-target="#modalDetail{{_id}}"><i class="fas fa-eye"></i></a> -->
+  </div>
+</template>

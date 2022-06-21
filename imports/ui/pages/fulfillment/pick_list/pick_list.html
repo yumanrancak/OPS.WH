@@ -1,0 +1,137 @@
+<template name="pick_list">
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">PICK LIST</h1>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <!-- Order Scan -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card-body">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label>Invoice</label>
+                      <input type="text" value="" id="searchinv" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label>Tracking Number</label>
+                      <input type="text" value="" id="searchtrack" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label>Market Place</label>
+                      <input type="text" value="" id="searchmp" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label>Shipper</label>
+                      <select class="custom-select" id="searchshipper">
+                        <option value="all_shipper">All Shipper</option>
+                        {{#each showDataKurir}}
+                        <option value="{{shipping_internal}}">{{shipping_internal}}</option>
+                        {{/each}}
+                      </select>
+                    </div>
+                  </div>
+                  <!-- <div class="col-2">
+                    <div class="form-group">
+                      <label>Status</label>
+                      <select class="custom-select" id="searchstatus">
+                        <option value="all_status">All Status</option>
+                        <option value="true">Available</option>
+                        <option value="false">Not Found Product</option>
+                      </select>
+                    </div>
+                  </div> -->
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label>Created By</label>
+                      <select class="custom-select" id="searchby">
+                        <option value="all_user">All User</option>
+                        {{#each createList}}
+                        {{#if ne _id null}}
+                        <option value="{{_id}}">{{userNameDrop _id}}</option>
+                        {{/if}}
+                        {{/each}}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="row">
+                  <div class="col-12">
+                    <label>Filter</label>
+                    {{> reactiveTableFilter id="myFilterBrand" label=" " }}
+                  </div>
+                </div> -->
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-header border-0">
+                      <h3 class="card-title">Scan Validation 1</h3>
+                      <div class="card-tools">
+                        <div class="btn-group float-right" style="margin-right: 100px;">
+                          <!-- <button class="btn btn-xs btn-warning listbatch" style="border-radius: 40px; width: 140px;"><b >List Batch</b></button> -->
+                        </div>
+                          {{#if eq isSubscriptionR2 false}}
+                          <div class="spinner-border text-danger"></div>
+                          Loading...
+                          {{/if}}
+                          <label>Check All :</label>&nbsp;
+                          <input type="checkbox" id="checkall" name="checkall">
+                          
+                        <!-- <a href="#" class="btn btn-tool btn-sm">
+                          <i class="fas fa-bars"></i>
+                        </a> -->
+                      </div>
+                    </div>
+                    <div class="card-body ">
+                      {{#if eq isSubscriptionR false}}
+                      <div class="spinner-border text-danger"></div>
+                      Loading...
+                      {{/if}}
+                      {{> reactiveTable class="table table-striped table-sm table-valign-middle"
+                      settings=settingsvalid1}}
+                      <div class="btn-group float-right" style="margin-right: 70px;">
+                        <!-- <button class="btn btn-xs btn-danger btncheck" style="border-radius: 40px; width: 140px;"><b>Check Product</b></button> &nbsp;&nbsp; -->
+                        <button class="btn btn-xs btn-danger btnCreate"
+                          style="border-radius: 40px; width: 140px;"><b>Create Batch</b></button>
+                      </div>
+                    </div><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+  </div>
+</template>
+
+
+<template name="pick">
+  <div class="btn-group {{checkedClass todo}}">
+    <input type="checkbox" id="check" name="check{{_id._str}}" class="checkboxAll" {{checkedClass}}>
+  </div>
+</template>

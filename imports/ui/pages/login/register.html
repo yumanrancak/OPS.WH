@@ -1,0 +1,101 @@
+<template name='register'>
+  <div class="login-page">
+    <div class="login-box">
+      <div class="login-logo">
+        <a href="/"><img src="/logo-uii.png" alt="uiibpm" class="" style="opacity: .8"></a>
+      </div>
+      <!-- /.login-logo -->
+      <div class="card">
+        <div class="card-body login-card-body">
+          {{#if loginInSession}}
+          <div class="spinner-border text-danger text-center"></div>
+          <p>Please Wait Register still in process...</p>
+          {{else}}
+          <h3 class="text-center">Registration</h3>
+          <p class="login-box-msg">Fill out this form to Register</p>
+          {{/if}}
+
+
+          <!-- <form class="login-form"> -->
+          <div class="input-group mb-3">
+            <input type="text" id="myemail" class="form-control" placeholder="Email" required>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="password" id="password" class="form-control" placeholder="Password" required>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" id="fullname" class="form-control" placeholder="Full Name" required>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-user"></span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <select class="custom-select" id="organization" required>
+              {{#each surveyOrganization}}
+              <option value="{{_id}}">{{organizationName}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="form-group">
+            <select class="custom-select" id="role" required>
+              {{#each surveyTarget}}
+              <option value="{{_id}}">{{_id}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="row">
+            <!-- <div class="col-8">
+                <div class="icheck-primary">
+                  <input type="checkbox" id="remember">
+                  <label for="remember">
+                    Remember Me
+                  </label>
+                </div>
+              </div> -->
+            <!-- /.col -->
+            <div class="col-12">
+              <button class="btn btn-primary btnRegister">Register</button>
+              <!-- <button class="btn btn-primary float-right" data-provider="shibboleth-idp">Login SSO</button> -->
+              <!-- <a class="btn btn-danger float-right" href="/Login">Back to Login</a> -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- </form> -->
+
+          <!-- <div class="social-auth-links text-center mb-3">
+              <p>- OR -</p>
+              <a href="#" class="btn btn-block btn-primary">
+                <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+              </a>
+              <a href="#" class="btn btn-block btn-danger">
+                <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+              </a>
+            </div> -->
+          <!-- /.social-auth-links -->
+
+          <!-- <p class="mb-1">
+            <a href="forgot-password.html">I forgot my password</a>
+          </p>-->
+          <br>
+          <p class="mb-0">
+            <a href="/login" class="text-center">Back to Login</a>
+          </p>
+        </div>
+        <!-- /.login-card-body -->
+      </div>
+    </div>
+  </div>
+
+</template>
